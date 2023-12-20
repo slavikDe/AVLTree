@@ -13,7 +13,7 @@ private:
     Value value;
     Key key;
 
-    std::shared_ptr<Node> root_node;
+    std::shared_ptr<Node> parent_node;
 
     std::shared_ptr<Node> left_node;
     std::shared_ptr<Node> right_node;
@@ -33,8 +33,11 @@ private:
   void AddNode(Key key, Value value);
 
   void Balance();
-  bool IsSubtreeBalanced(std::shared_ptr<Node> root);
+  void GetSubTreeLength(std::shared_ptr<Node> node, int& min, int& max);
 
+  void LeftRotation(std::shared_ptr<Node> node);
+  void RigthRotation(std::shared_ptr<Node> node);
+  void SwapWithParent(std::shared_ptr<Node> node);
 private:
   std::shared_ptr<Node> root_node;
 };
