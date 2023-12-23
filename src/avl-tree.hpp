@@ -35,8 +35,8 @@ private:
   void Balance();
   void GetSubTreeLength(std::shared_ptr<Node> node, int& min, int& max);
 
-  void LeftRotation(std::shared_ptr<Node> node);
-  void RigthRotation(std::shared_ptr<Node> node);
+  void LeftRotation(std::shared_ptr<Node> root);
+  void RigthRotation(std::shared_ptr<Node> root);
   void SwapWithParent(std::shared_ptr<Node> node);
 private:
   std::shared_ptr<Node> root_node;

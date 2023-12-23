@@ -1,9 +1,7 @@
 #pragma once
 #include "avl-tree.hpp"
 
-AvlTree::AvlTree(){
-
-};
+AvlTree::AvlTree() {}
 
 void AvlTree::SetValue(Key key, Value value) {
   std::shared_ptr<Node> node = FindNode(key);
@@ -12,40 +10,65 @@ void AvlTree::SetValue(Key key, Value value) {
   } else {
     node->value = value;
   }
-};
+}
 
-Value AvlTree::FindValue(Key key){
-
-};
+Value AvlTree::FindValue(Key key) {}
 
 bool AvlTree::IsBalanced() {
   int min, max;
   GetSubTreeLength(root_node, min, max);
 
   return max - min <= 1;
-};
-
-
+}
 
 void AvlTree::SwapWithParent(std::shared_ptr<Node> node) {
-  std::shared_ptr<Node> left_child = 
-};
+  auto parent = node->parent_node;
 
-void AvlTree::LeftRotation(std::shared_ptr<Node> node) {
-  
-};
-void AvlTree::RigthRotation(std::shared_ptr<Node> node) {
-  
-};
-  
+  std::swap(node->key, parent->key);
+  std::swap(node->value, parent->value);
+}
 
-void AvlTree::AddNode(Key key, Value value){
+void AvlTree::LeftRotation(std::shared_ptr<Node> root) {}
+void AvlTree::RigthRotation(std::shared_ptr<Node> root) {
+  auto l = root->left_node;
+  SwapWithParent(l);
+
+  std::swap(root->left_node, root->right_node);
+
+  std::swap(l->left_node, root->left_node);
+  std::swap(l->left_node->parent_node, root->left_node->parent_node);
+
+  std::swap(l->left_node, l->right_node);
+}
+
+void AvlTree::AddNode(Key key, Value value) {
+  std::shared_ptr<Node> new_node = std::make_shared<Node>();
+
+  auto current = root_node;
+  bool is_left_subtree;
   
-};
+  new_node->key = key;
+  new_node->value = value;
 
-void AvlTree::Balance(){
+  while (true) {
+	std::shared_ptr<Node> next;
 
-};
+    if (current->key > key) {
+        next = current->left_node;
+    } else if (current->key < key) {
+        next = current->right_node;
+    }
+
+    if (next.get() == nullptr) {
+	  break;
+    }
+	current = next;
+  }
+
+
+}
+
+void AvlTree::Balance() {}
 
 void AvlTree::GetSubTreeLength(std::shared_ptr<Node> node, int &min, int &max) {
   if (node.get() == nullptr) {
@@ -63,4 +86,4 @@ void AvlTree::GetSubTreeLength(std::shared_ptr<Node> node, int &min, int &max) {
 
   min++;
   max++;
-};
+}
