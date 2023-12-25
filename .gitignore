@@ -2,6 +2,8 @@
 /*/
 !/src
 !/src/*
+!/binary-tree-format.gvpr
+!/display-graphs.sh
 !/libs
 !/libs/*
 !/.clang-format

@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include <memory>
 
 struct Value {
@@ -9,14 +10,18 @@ typedef int Key;
 
 class AvlTree {
 private:
+  struct Node;
+
+  using node_ptr_t = std::shared_ptr<Node>;
+
   struct Node {
     Value value;
     Key key;
 
-    std::shared_ptr<Node> parent_node;
+    node_ptr_t parent_node;
 
-    std::shared_ptr<Node> left_node;
-    std::shared_ptr<Node> right_node;
+    node_ptr_t left_node;
+    node_ptr_t right_node;
   };
 
 public:
@@ -26,18 +31,45 @@ public:
 
   Value FindValue(Key key);
 
+  void DeleteValue(Key key);
+
   bool IsBalanced();
+  bool IsBalanced(int &min, int &max);
+
+  bool IsValidTree();
+
+  void Dump(std::ostream &output);
 
 private:
-  std::shared_ptr<Node> FindNode(Key key);
+  node_ptr_t FindNode(Key key);
   void AddNode(Key key, Value value);
 
-  void Balance();
-  void GetSubTreeLength(std::shared_ptr<Node> node, int& min, int& max);
+  node_ptr_t FindParentNodeForNewKey(Key key);
 
-  void LeftRotation(std::shared_ptr<Node> root);
-  void RigthRotation(std::shared_ptr<Node> root);
-  void SwapWithParent(std::shared_ptr<Node> node);
+  node_ptr_t FindUnbalancedGrandParentUp(node_ptr_t node);
+
+  void BalanceNode(node_ptr_t child_node);
+
+  bool IsLeftChild(node_ptr_t child_node);
+
+  bool IsSubtreeBalanced(node_ptr_t root);
+  void GetSubTreeLength(node_ptr_t node, int &min, int &max);
+
+  bool IsValidSubtree(node_ptr_t parent, node_ptr_t child);
+
+  void DumpNode(node_ptr_t node, std::ostream &output);
+
+  void RRRotation(node_ptr_t root);
+  void LLRotation(node_ptr_t root);
+
+  void LRRotation(node_ptr_t root);
+  void RLRotation(node_ptr_t root);
+
+  void SwapWithParent(node_ptr_t node);
+  void SwapNodes(node_ptr_t node1_parent, bool is_left1,
+                 node_ptr_t node2_parent, bool is_left2);
+  void MoveNode(node_ptr_t from, node_ptr_t to_parent, bool is_to_left);
+
 private:
-  std::shared_ptr<Node> root_node;
+  node_ptr_t root_node;
 };
