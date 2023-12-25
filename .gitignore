@@ -6,6 +6,8 @@
 !/display-graphs.sh
 !/libs
 !/libs/*
+!/build.sh
+!/run.sh
 !/.clang-format
 !/.gitignore
 !/.gitmodules
