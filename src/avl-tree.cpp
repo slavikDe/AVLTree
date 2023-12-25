@@ -32,16 +32,11 @@ void AvlTree::DeleteValue(Key key) {
 }
 
 bool AvlTree::IsBalanced() {
-  int min, max;
-  GetSubTreeLength(root_node, min, max);
+  if (root_node.get() == nullptr) {
+    return true;
+  }
 
-  return max - min <= 1;
-}
-
-bool AvlTree::IsBalanced(int &min, int &max) {
-  GetSubTreeLength(root_node, min, max);
-
-  return max - min <= 1;
+  return IsSubtreeBalanced(root_node);
 }
 
 bool AvlTree::IsValidTree() {
@@ -120,6 +115,24 @@ void AvlTree::AddNode(Key key, Value value) {
   BalanceNode(unbalanced_child_node);
 }
 
+void AvlTree::DeleteNode(Key key) {
+  
+}
+
+
+AvlTree::node_ptr_t AvlTree::FindNodeToSwap(Node root, Key key) {
+  int left_min, left_max, right_min, right_max;
+
+  GetSubTreeLength(root.left_node, left_min, left_max);
+  GetSubTreeLength(root.right_node, right_min, right_max);
+
+  if(left_max > right_max) {
+	FindNodeToSwap(root.left_node, key);
+  } else if (left_max < right_max) {
+    
+  }else{}
+} 
+
 std::shared_ptr<AvlTree::Node> AvlTree::FindParentNodeForNewKey(Key key) {
   auto current = root_node;
 
@@ -184,10 +197,12 @@ bool AvlTree::IsLeftChild(node_ptr_t child_node) {
 }
 
 bool AvlTree::IsSubtreeBalanced(node_ptr_t root) {
-  int min, max;
-  GetSubTreeLength(root, min, max);
+  int left_min, left_max;
+  int right_min, rigth_max;
+  GetSubTreeLength(root->left_node, left_min, left_max);
+  GetSubTreeLength(root->right_node, right_min, rigth_max);
 
-  return max - min <= 1;
+  return abs(left_max - rigth_max) <= 1;
 }
 
 void AvlTree::GetSubTreeLength(node_ptr_t node, int &min, int &max) {
@@ -231,6 +246,11 @@ bool AvlTree::IsValidSubtree(node_ptr_t parent, node_ptr_t child) {
   }
 
   return true;
+}
+
+
+bool AvlTree::IsLeaf(node_ptr_t node){
+  return node->left_node.get() == nullptr && node->right_node.get() == nullptr;
 }
 
 void AvlTree::DumpNode(node_ptr_t node, std::ostream &output) {

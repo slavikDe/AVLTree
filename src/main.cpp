@@ -12,13 +12,14 @@ int main() {
 
   AvlTree tree;
 
-  std::vector<int> keys = generate_keys(10);
+  std::vector<int> keys = generate_keys(100);
+  //std::vector<int> keys = {48, 92, 12, 84, 38, 91, 50};
 
   int step_i = 0;
 
   for (auto k : keys) {
     tree.SetValue(k, {k});
-    std::cout << k << " key added" << std::endl;
+    std::cout << k << " key added " << step_i<< std::endl;
 
     bool is_valid = tree.IsValidTree();
     if (!is_valid) {
@@ -51,7 +52,7 @@ std::vector<int> generate_keys(int count) {
 
   int d = 1;
   for (int i = 0; i < count; i++) {
-    keys.push_back(rand() % 1000);
+    keys.push_back(rand() % 50 + 1);
     d = -d;
   }
 
@@ -69,8 +70,7 @@ void dump_tree(AvlTree &tree, int index) {
 }
 
 void print_balance_info(AvlTree &tree) {
-  int min, max;
-  bool is_balanced = tree.IsBalanced(min, max);
+  bool is_balanced = tree.IsBalanced();
 
   if (is_balanced) {
     return;
@@ -78,6 +78,5 @@ void print_balance_info(AvlTree &tree) {
 
   std::cout << cc_red;
   std::cout << "not balanced" << std::endl;
-  std::cout << "min: " << min << " max: " << max << std::endl;
   std::cout << cc_reset;
 }

@@ -34,7 +34,7 @@ public:
   void DeleteValue(Key key);
 
   bool IsBalanced();
-  bool IsBalanced(int &min, int &max);
+  // bool IsBalanced(int &min, int &max);
 
   bool IsValidTree();
 
@@ -43,6 +43,10 @@ public:
 private:
   node_ptr_t FindNode(Key key);
   void AddNode(Key key, Value value);
+  void DeleteNode(Key key);
+
+  node_ptr_t FindNodeToSwap(Node root, Key key);
+  
 
   node_ptr_t FindParentNodeForNewKey(Key key);
 
@@ -56,6 +60,7 @@ private:
   void GetSubTreeLength(node_ptr_t node, int &min, int &max);
 
   bool IsValidSubtree(node_ptr_t parent, node_ptr_t child);
+  bool IsLeaf(node_ptr_t node);
 
   void DumpNode(node_ptr_t node, std::ostream &output);
 
